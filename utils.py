@@ -14,7 +14,7 @@ def html_to_md(string):
 def get_formatted_book_data(book_data):
     template = textwrap.dedent("""\
         **Title:** {0} by {1},
-        **Rating:** {2} by {3},
+        **Rating:** {2} by {3} users,
         **Description:** {4},
         **Link**: {5}
 
