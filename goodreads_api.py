@@ -8,6 +8,10 @@ from settings import GOODREADS_API_KEY
 goodreads_api_key = GOODREADS_API_KEY
 
 
+class BookNotFound(Exception):
+    pass
+
+
 def get_top_google_goodreads_search(search_term):
     # For a give search term, it searches Goodreads using Google and returns
     # top 4 result urls
@@ -18,8 +22,8 @@ def get_top_google_goodreads_search(search_term):
     return [result['url'] for result in response['responseData']['results']]
 
 
-def get_top_google_goodreads_books(search_term):
-    result_urls = get_top_google_goodreads_search(search_term=search_term)
+def get_top_google_goodreads_books(book_name):
+    result_urls = get_top_google_goodreads_search(search_term=book_name)
     return [url for url in result_urls if 'goodreads.com/book/show/' in url]
 
 
@@ -51,3 +55,12 @@ def get_book_details_by_id(goodreads_id):
         authors = book_data['authors']['author']['name']
     book['authors'] = authors
     return book
+
+
+def get_book_details_by_name(book_name):
+    urls = get_top_google_goodreads_books(book_name=book_name)
+    if not urls:
+        raise BookNotFound
+    top_search_url = urls[0]
+    goodreads_id = get_goodreads_id(url=top_search_url)
+    return get_book_details_by_id(goodreads_id=goodreads_id)
