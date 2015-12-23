@@ -3,6 +3,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.options import define, options
 
+from goodreads_api import get_book_details_by_name, BookNotFound
 from settings import TELEGRAM_ACCESS_TOKEN, WEBHOOK_URL
 
 define("port", default=5000, help="run on the given port", type=int)
@@ -30,8 +31,9 @@ class MainHandler(tornado.web.RequestHandler):
             if not chat_type == 'group':
                 return
 
+            response = parse_command(text=text)
             bot.sendMessage(reply_to_message_id=message_id,
-                            chat_id=chat_id, text=text)
+                            chat_id=chat_id, text=response)
         except KeyError:
             pass
         except telegram.error.TelegramError:
@@ -46,6 +48,21 @@ class WebHookHandler(tornado.web.RequestHandler):
         if not response:
             return self.write('Setting up webhook has failed')
         return self.write('Webhook has been successfully set')
+
+
+def parse_command(text):
+    # The telegram usually sends the whole text as something like:
+    # '/ping hello' or '/ping@botname hello'
+    command, argument = text.split(' ', 1)
+    if command == '/book' or command == '/book@goodreadsbot':
+        return get_book_details(book_name=argument)
+
+
+def get_book_details(book_name):
+    try:
+        book_data = get_book_details_by_name(book_name)
+    except BookNotFound:
+        return "I couldn't find the book, can you be more precise?"
 
 
 def make_app():
