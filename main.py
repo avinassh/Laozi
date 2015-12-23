@@ -4,6 +4,7 @@ import tornado.web
 from tornado.options import define, options
 
 from goodreads_api import get_book_details_by_name, BookNotFound
+from utils import get_formatted_book_data
 from settings import TELEGRAM_ACCESS_TOKEN, WEBHOOK_URL
 
 define("port", default=5000, help="run on the given port", type=int)
@@ -56,11 +57,13 @@ def parse_command(text):
     command, argument = text.split(' ', 1)
     if command == '/book' or command == '/book@goodreadsbot':
         return get_book_details(book_name=argument)
+    return 'Invalid command'
 
 
 def get_book_details(book_name):
     try:
-        book_data = get_book_details_by_name(book_name)
+        book_data = get_book_details_by_name(book_name=book_name)
+        return get_formatted_book_data(book_data=book_data)
     except BookNotFound:
         return "I couldn't find the book, can you be more precise?"
 
