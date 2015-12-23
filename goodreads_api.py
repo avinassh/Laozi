@@ -1,20 +1,36 @@
+import re
+
 import requests
 import xmltodict
 
-from secret import GOODREADS_API_KEY
+from settings import GOODREADS_API_KEY
 
 goodreads_api_key = GOODREADS_API_KEY
 
 
-def get_first_search_result(search_term):
-    api_url = "https://www.goodreads.com/search/index.xml?key={0}&q={1}&search[field]=title"
-    r = requests.get(api_url.format(search_term, goodreads_api_key))
-    try:
-        book_data = xmltodict.parse(r.content)['GoodreadsResponse']['search']
-        book_id = book_data['results']['work'][0]['best_book']['id']['#text']
-        return book_id
-    except (TypeError, KeyError):
-        return False
+def get_top_google_goodreads_search(search_term):
+    # For a give search term, it searches Goodreads using Google and returns
+    # top 4 result urls
+    query = "site:goodreads.com {0}".format(search_term)
+    url = "https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={0}"
+    r = requests.get(url.format(query))
+    response = r.json()
+    return [result['url'] for result in response['responseData']['results']]
+
+
+def get_top_google_goodreads_books(search_term):
+    result_urls = get_top_google_goodreads_search(search_term=search_term)
+    return [url for url in result_urls if 'goodreads.com/book/show/' in url]
+
+
+def get_goodreads_id(url):
+    # receives goodreads url
+    # returns the id using regex
+    regex = r'goodreads.com/book/show/(\d+)'
+    ids = re.findall(regex, url)
+    if ids:
+        return ids[0]
+    return False
 
 
 def get_book_details_by_id(goodreads_id):
