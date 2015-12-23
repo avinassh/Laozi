@@ -34,7 +34,9 @@ class MainHandler(tornado.web.RequestHandler):
 
             response = parse_command(text=text)
             bot.sendMessage(reply_to_message_id=message_id,
-                            chat_id=chat_id, text=response)
+                            chat_id=chat_id, text=response,
+                            disable_web_page_preview=True,
+                            parse_mode='Markdown')
         except KeyError:
             pass
         except telegram.error.TelegramError:
