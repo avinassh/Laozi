@@ -54,9 +54,12 @@ class WebHookHandler(tornado.web.RequestHandler):
 def parse_command(text):
     # The telegram usually sends the whole text as something like:
     # '/ping hello' or '/ping@botname hello'
-    command, argument = text.split(' ', 1)
-    if command == '/book' or command == '/book@goodreadsbot':
-        return get_book_details(book_name=argument)
+    try:
+        command, argument = text.split(' ', 1)
+        if command == '/book' or command == '/book@goodreadsbot':
+            return get_book_details(book_name=argument)
+    except ValueError:
+        pass
     return 'Invalid command'
 
 
