@@ -3,7 +3,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.options import define, options
 
-from secret import TELEGRAM_ACCESS_TOKEN, WEBHOOK_URL
+from settings import TELEGRAM_ACCESS_TOKEN, WEBHOOK_URL
 
 define("port", default=5000, help="run on the given port", type=int)
 
@@ -25,6 +25,11 @@ class MainHandler(tornado.web.RequestHandler):
             message_id = data['message']['message_id']
             chat_id = data['message']['chat']['id']
             text = data['message']['text']
+            chat_type = data['message']['chat']['type']
+
+            if not chat_type == 'group':
+                return
+
             bot.sendMessage(reply_to_message_id=message_id,
                             chat_id=chat_id, text=text)
         except KeyError:
