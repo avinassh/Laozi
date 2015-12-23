@@ -39,8 +39,9 @@ class MainHandler(tornado.web.RequestHandler):
                             parse_mode='Markdown')
         except KeyError:
             pass
-        except telegram.error.TelegramError:
+        except telegram.error.TelegramError as e:
             print(data)
+            print(e)
         return
 
 
