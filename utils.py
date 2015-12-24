@@ -24,7 +24,7 @@ def get_formatted_book_data(book_data):
         *Title:* {0} by {1}
         *Rating:* {2} by {3} users
         *Description:* {4}
-        *Link*: {5}
+        *Link*: [click me]({5})
 
         Tip: {6}""")
     title = book_data['title']
