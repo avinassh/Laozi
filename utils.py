@@ -12,6 +12,8 @@ def strip_html_tags(text):
 
 
 def html_to_md(string, strip_html=True, markdown=False):
+    if not string:
+        return 'No Description Found'
     if strip_html:
         string = strip_html_tags(string)
     if markdown:
