@@ -8,6 +8,7 @@ text_maker.body_width = 0
 
 
 def strip_html_tags(text):
+    text = re.sub(r'<a.*?</a>', '', text)
     return re.sub('<[^<]+?>', '', text)
 
 
