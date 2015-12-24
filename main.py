@@ -27,10 +27,10 @@ class MainHandler(tornado.web.RequestHandler):
             message_id = data['message']['message_id']
             chat_id = data['message']['chat']['id']
             text = data['message']['text']
-            chat_type = data['message']['chat']['type']
+            # chat_type = data['message']['chat']['type']
 
-            if not (chat_type == 'group' or chat_type == 'supergroup'):
-                return
+            # if not (chat_type == 'group' or chat_type == 'supergroup'):
+            #     return
 
             response = parse_command(text=text)
             bot.sendMessage(reply_to_message_id=message_id,
