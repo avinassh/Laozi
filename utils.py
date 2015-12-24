@@ -11,10 +11,12 @@ def strip_html_tags(text):
     return re.sub('<[^<]+?>', '', text)
 
 
-def html_to_md(string, strip_html=True):
-    if strip_html is True:
+def html_to_md(string, strip_html=True, markdown=False):
+    if strip_html:
         string = strip_html_tags(string)
-    return text_maker.handle(string)
+    if markdown:
+        string = text_maker.handle(string)
+    return string
 
 
 def get_formatted_book_data(book_data):
