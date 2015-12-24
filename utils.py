@@ -38,6 +38,6 @@ def get_formatted_book_data(book_data):
     url = book_data['url']
 
     tip = 'Use author name also for better search results'
-    template = template.format(title, authors, average_rating, ratings_count,
+    response = template.format(title, authors, average_rating, ratings_count,
                                description, url, tip)
-    return template
+    return response
