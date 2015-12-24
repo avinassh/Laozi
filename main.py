@@ -29,7 +29,7 @@ class MainHandler(tornado.web.RequestHandler):
             text = data['message']['text']
             chat_type = data['message']['chat']['type']
 
-            if not chat_type == 'group':
+            if not (chat_type == 'group' or chat_type == 'supergroup'):
                 return
 
             response = parse_command(text=text)
