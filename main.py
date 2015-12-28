@@ -63,7 +63,6 @@ def parse_command(text):
             return get_book_details(book_name=argument)
     except ValueError:
         pass
-    return 'Invalid command'
 
 
 def get_book_details(book_name):
