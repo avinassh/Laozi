@@ -33,10 +33,11 @@ class MainHandler(tornado.web.RequestHandler):
             #     return
 
             response = parse_command(text=text)
-            bot.sendMessage(reply_to_message_id=message_id,
-                            chat_id=chat_id, text=response,
-                            disable_web_page_preview=True,
-                            parse_mode='Markdown')
+            if response:
+                bot.sendMessage(reply_to_message_id=message_id,
+                                chat_id=chat_id, text=response,
+                                disable_web_page_preview=True,
+                                parse_mode='Markdown')
         except KeyError:
             pass
         except telegram.error.TelegramError as e:
@@ -63,6 +64,7 @@ def parse_command(text):
             return get_book_details(book_name=argument)
     except ValueError:
         pass
+    return False
 
 
 def get_book_details(book_name):
