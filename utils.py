@@ -37,8 +37,8 @@ def get_formatted_book_data(book_data):
     ratings_count = book_data['ratings_count']
     description = html_to_md(book_data.get('description', ''))
     url = book_data['url']
-    pages = book_data['publication_year']
-    year = book_data['num_pages']
+    year = book_data['publication_year']
+    pages = book_data['num_pages']
 
     tip = 'Use author name also for better search results'
     response = template.format(
