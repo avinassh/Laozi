@@ -27,6 +27,7 @@ def get_formatted_book_data(book_data):
         *Title:* {0} by {1}
         *Rating:* {2} by {3} users
         *Description:* {4}
+        Pages: {7}, Year: {8}
         *Link*: [click me]({5})
 
         Tip: {6}""")
@@ -36,8 +37,11 @@ def get_formatted_book_data(book_data):
     ratings_count = book_data['ratings_count']
     description = html_to_md(book_data.get('description', ''))
     url = book_data['url']
+    pages = book_data['publication_year']
+    year = book_data['num_pages']
 
     tip = 'Use author name also for better search results'
-    response = template.format(title, authors, average_rating, ratings_count,
-                               description, url, tip)
+    response = template.format(
+        title, authors, average_rating, ratings_count, description, url, tip,
+        pages, year)
     return response
