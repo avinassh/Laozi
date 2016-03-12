@@ -2,6 +2,7 @@ import re
 
 import requests
 import xmltodict
+from xml.parsers.expat import ExpatError
 
 from settings import GOODREADS_API_KEY
 
@@ -42,12 +43,19 @@ def get_book_details_by_id(goodreads_id):
     r = requests.get(api_url.format(goodreads_id, goodreads_api_key))
     try:
         book_data = xmltodict.parse(r.content)['GoodreadsResponse']['book']
-    except (TypeError, KeyError):
+    except (TypeError, KeyError, ExpatError):
         return False
-    keys = ['title', 'average_rating', 'ratings_count', 'description', 'url']
+    keys = ['title', 'average_rating', 'ratings_count', 'description',
+            'num_pages']
     book = {}
     for k in keys:
-        book[k] = book_data[k]
+        book[k] = book_data.get(k)
+    try:
+        work = book_data['work']
+        book['publication_year'] = work['original_publication_year']['#text']
+    except KeyError:
+        book['publication_year'] = book_data.get('publication_year')
+
     if type(book_data['authors']['author']) == list:
         authors = [author['name'] for author in book_data['authors']['author']]
         authors = ', '.join(authors)
