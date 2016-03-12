@@ -45,7 +45,7 @@ def get_book_details_by_id(goodreads_id):
         book_data = xmltodict.parse(r.content)['GoodreadsResponse']['book']
     except (TypeError, KeyError, ExpatError):
         return False
-    keys = ['title', 'average_rating', 'ratings_count', 'description',
+    keys = ['title', 'average_rating', 'ratings_count', 'description', 'url',
             'num_pages']
     book = {}
     for k in keys:
