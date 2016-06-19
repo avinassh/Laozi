@@ -8,7 +8,7 @@ Currently the bot can be hosted on Heroku. Set the following environment variabl
 
 - `TELEGRAM_ACCESS_TOKEN` - Bot access token. You can get this from `@BotFather`
 - `GOODREADS_API_KEY` - API key to access Goodreads
+- `BING_SEARCH_API_KEY` - Bing Search API Key
 - `WEBHOOK_URL` - Set it as `https://your-app-name.herokuapp.com/duh`
-
 
 Once deployed, visit `/setwebhook` like, `https://your-app-name.herokuapp.com/setwebhook`. You should see `Webhook has been successfully set`. 
