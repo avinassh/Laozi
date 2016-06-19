@@ -23,6 +23,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     def post(self):
         data = tornado.escape.json_decode(self.request.body)
+        print("Received request: {}".format(data))
         try:
             message_id = data['message']['message_id']
             chat_id = data['message']['chat']['id']
