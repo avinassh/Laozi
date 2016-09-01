@@ -1,0 +1,24 @@
+{
+  "name": "laozi",
+  "description": "Telegram bot for Goodreads",
+  "repository": "https://github.com/avinassh/laozi",
+  "keywords": ["python", "telegram", "bot"],
+  "env": {
+    "TELEGRAM_ACCESS_TOKEN": {
+      "description": "Telegram Access Token",
+      "required": true
+    },
+    "GOODREADS_API_KEY": {
+      "description": "Goodreads API Key",
+      "required": true
+    },
+    "WEBHOOK_URL": {
+      "description": "Check repo description",
+      "required": true
+    },
+    "BING_SEARCH_API_KEY": {
+      "description": "Bing Search API Key",
+      "required": true
+    }
+  }
+}
