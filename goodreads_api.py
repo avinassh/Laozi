@@ -3,14 +3,24 @@ import re
 import requests
 import xmltodict
 from xml.parsers.expat import ExpatError
+from googleapiclient.discovery import build
 
-from settings import GOODREADS_API_KEY
+from settings import (GOODREADS_API_KEY, GOOGLE_DEV_API_KEY,
+                      GOOGLE_CUSTOM_SEARCH_CX)
 
 goodreads_api_key = GOODREADS_API_KEY
 
 
 class BookNotFound(Exception):
     pass
+
+
+def get_top_google_goodreads_search(search_term):
+    service = build("customsearch", "v1", developerKey=GOOGLE_DEV_API_KEY)
+    results = service.cse().list(q=search_term, cx=GOOGLE_CUSTOM_SEARCH_CX,
+    ).execute()
+    return [r['link'] for r in results.get('items')
+            if 'goodreads.com/book/show/' in r['link']]
 
 
 def get_goodreads_id(url):
@@ -51,7 +61,7 @@ def get_book_details_by_id(goodreads_id):
 
 
 def get_book_details_by_name(book_name):
-    urls = get_top_bing_goodreads_search(search_term=book_name)
+    urls = get_top_google_goodreads_search(search_term=book_name)
     if not urls:
         raise BookNotFound
     top_search_url = urls[0]

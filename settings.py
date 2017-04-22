@@ -2,6 +2,8 @@ import os
 
 TELEGRAM_ACCESS_TOKEN = os.environ['TELEGRAM_ACCESS_TOKEN']
 GOODREADS_API_KEY = os.environ['GOODREADS_API_KEY']
+GOOGLE_DEV_API_KEY = os.environ['GOOGLE_DEV_API_KEY']
+GOOGLE_CUSTOM_SEARCH_CX = os.environ['GOOGLE_CUSTOM_SEARCH_CX']
 
 # Telegram Webhook settings
 WEBHOOK_URL = os.environ['WEBHOOK_URL']
