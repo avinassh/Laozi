@@ -8,8 +8,6 @@ from googleapiclient.discovery import build
 from settings import (GOODREADS_API_KEY, GOOGLE_DEV_API_KEY,
                       GOOGLE_CUSTOM_SEARCH_CX)
 
-goodreads_api_key = GOODREADS_API_KEY
-
 
 class BookNotFound(Exception):
     pass
@@ -35,7 +33,7 @@ def get_goodreads_id(url):
 
 def get_book_details_by_id(goodreads_id):
     api_url = 'http://goodreads.com/book/show/{0}?format=xml&key={1}'
-    r = requests.get(api_url.format(goodreads_id, goodreads_api_key))
+    r = requests.get(api_url.format(goodreads_id, GOODREADS_API_KEY))
     try:
         book_data = xmltodict.parse(r.content)['GoodreadsResponse']['book']
     except (TypeError, KeyError, ExpatError):
