@@ -20,7 +20,8 @@ class MainHandler(tornado.web.RequestHandler):
 
     def post(self):
         data = tornado.escape.json_decode(self.request.body)
-        bot_handler(data=data)
+        self.set_status(200)
+        return bot_handler(data=data)
 
 
 class WebHookHandler(tornado.web.RequestHandler):
