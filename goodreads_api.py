@@ -17,8 +17,9 @@ def get_top_google_goodreads_search(search_term):
     service = build("customsearch", "v1", developerKey=GOOGLE_DEV_API_KEY)
     results = service.cse().list(q=search_term, cx=GOOGLE_CUSTOM_SEARCH_CX,
                                  ).execute()
-    return [r['link'] for r in results.get('items')
-            if 'goodreads.com/book/show/' in r['link']]
+    if results.get('items'):
+        return [r['link'] for r in results.get('items')
+                if 'goodreads.com/book/show/' in r['link']]
 
 
 def get_goodreads_id(url):
